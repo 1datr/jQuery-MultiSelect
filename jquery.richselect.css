@@ -1,0 +1,164 @@
+.rs-options-wrap,
+.rs-options-wrap * {
+    box-sizing: border-box;
+}
+
+.rs-options-wrap > button:focus,
+.rs-options-wrap > button {
+    position: relative;
+    width: 100%;
+    text-align: left;
+    border: 1px solid #aaa;
+    background-color: #fff;
+    padding: 5px 20px 5px 5px;
+    margin-top: 1px;
+    font-size: 13px;
+    color: #aaa;
+    outline-offset: -2px;
+    white-space: nowrap;
+}
+
+.rs-options-wrap > button > span {
+    display: inline-block;
+}
+
+.rs-options-wrap > button[disabled] {
+    background-color: #e5e9ed;
+    color: #808080;
+    opacity: 0.6;
+}
+
+.rs-options-wrap > button:after {
+    content: ' ';
+    height: 0;
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    width: 0;
+    border: 6px solid rgba(0, 0, 0, 0);
+    border-top-color: #999;
+    margin-top: -3px;
+}
+
+.rs-options-wrap.rs-has-selections > button {
+    color: #333;
+}
+
+.rs-options-wrap > .rs-options {
+    position: absolute;
+    left: -15;
+    width: 100%;
+    margin-top: 1px;
+    margin-bottom: 20px;
+    background: white;
+    z-index: 2000;
+    border: 1px solid #aaa;
+    overflow: auto;
+    visibility: hidden;
+}
+
+.rs-options-wrap.rs-active > .rs-options {
+    visibility: visible
+}
+
+.rs-options-wrap > .rs-options > .rs-search input {
+    width: 100%;
+    padding: 4px 5px;
+    border: none;
+    border-bottom: 1px groove;
+    outline: none;
+}
+
+.rs-options-wrap > .rs-options .rs-selectall {
+    display: inline-block;
+    font-size: .9em;
+    text-transform: lowercase;
+    text-decoration: none;
+}
+.rs-options-wrap > .rs-options .rs-selectall:hover {
+    text-decoration: underline;
+}
+
+.rs-options-wrap > .rs-options > .rs-selectall.global {
+    margin: 4px 5px;
+}
+
+.rs-options-wrap > .rs-options > ul,
+.rs-options-wrap > .rs-options > ul > li.optgroup ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.rs-options-wrap > .rs-options > ul li.rs-hidden {
+    display: none;
+}
+
+.rs-options-wrap > .rs-options > ul > li.optgroup {
+    padding: 5px;
+}
+.rs-options-wrap > .rs-options > ul > li.optgroup + li.optgroup {
+    border-top: 1px solid #aaa;
+}
+
+.rs-options-wrap > .rs-options > ul > li.optgroup .label {
+    display: block;
+    padding: 5px 0 0 0;
+    font-weight: bold;
+}
+
+.rs-options-wrap > .rs-options > ul label {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    padding: 4px 4px 4px 20px;
+    margin: 1px 0;
+    border: 1px dotted transparent;
+}
+.rs-options-wrap > .rs-options.checkbox-autofit > ul label,
+.rs-options-wrap > .rs-options.hide-checkbox > ul label {
+    padding: 4px;
+}
+
+.rs-options-wrap > .rs-options > ul label.focused,
+.rs-options-wrap > .rs-options > ul label:hover {
+    background-color: #efefef;
+    border-color: #999;
+}
+
+.rs-options-wrap > .rs-options > ul li.selected label {
+    background-color: #efefef;
+    border-color: transparent;
+}
+
+.rs-options-wrap > .rs-options > ul input[type="checkbox"] {
+    margin: 0 5px 0 0;
+    position: absolute;
+    left: 4px;
+    top: 7px;
+}
+
+.rs-options-wrap > .rs-options > ul input[type="radio"] {
+    margin: 0 5px 0 0;
+    position: absolute;
+    left: 4px;
+    top: 7px;
+}
+
+.rs-options-wrap > .rs-options.hide-checkbox > ul input[type="checkbox"] {
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+}
+
+.rs-options-wrap > .rs-options.hide-radio > ul input[type="radio"] {
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+}
