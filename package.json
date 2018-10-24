@@ -1,22 +1,23 @@
 {
-    "name": "@nobleclem/jquery-multiselect",
-    "description": "Turn a multiselect list into a nice and easy to use list with checkboxes",
+    "name": "@1datr/jquery-richselect",
+    "description": "Fork of https://github.com/nobleclem/jQuery-MultiSelect. Make multiple or single HTML select. You can make HTML content in option and optgroup elements and many other features. ",
     "author": {
-        "name": "Patrick Springstubbe",
+        "name": "Anton Kuzmenko",
         "url" : "http://springstubbe.us"
     },
     "version": "2.4.15",
-    "main": "jquery.multiselect.js",
+    "main": "jquery.richselect.js",
     "license": "MIT",
     "keywords": [
         "jquery",
-        "MultiSelect",
-        "CheckBox"
+        "RichSelect",
+        "CheckBox",
+        "Radiobutton"
     ],
-    "homepage": "https://github.com/nobleclem/jQuery-MultiSelect",
+    "homepage": "https://github.com/nobleclem/jQuery-RichSelect",
     "repository": {
         "type": "git",
-        "url" : "https://github.com/nobleclem/jQuery-MultiSelect.git"
+        "url" : "https://github.com/nobleclem/jQuery-RichSelect.git"
     },
     "peerDependencies": {
         "jquery": ">=1.11.0"
