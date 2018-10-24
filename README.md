@@ -1,4 +1,4 @@
-jQuery MultiSelect
+jQuery RichSelect
 ==================
 
 Turn a multiselect list into a nice and easy to use list with checkboxes.  This plugin is simply an alternative interface for the native select list element.  When you check an option in the plugin the value is selected on the native list.  This allows the value to be submitted in a form as well as retreived through normal POST/GET and javascript methods.
@@ -15,10 +15,10 @@ http://springstubbe.us/projects/demos/jquery-multiselect/
 ## Usage
 ```
 // BASIC
-$('select[multiple]').multiselect();
+$('select[multiple]').richselect();
 
 // 4 COLUMNS with custom placeholder text
-$('select[multiple]').multiselect({
+$('select[multiple]').richselect({
     columns: 4,
     texts: {
         placeholder: 'Select options'
@@ -26,10 +26,10 @@ $('select[multiple]').multiselect({
 });
 
 // RELOAD multiselect (in case you modify options or selected options in the native select list since loading the plugin)
-$('select[multiple]').multiselect('reload');
+$('select[multiple]').richselect('reload');
 
 // DYNAMICALLY LOAD OPTIONS
-$('select[multiple]').multiselect( 'loadOptions', [{
+$('select[multiple]').richselect( 'loadOptions', [{
     name   : 'Option Name 1',
     value  : 'option-value-1',
     checked: false,
@@ -46,6 +46,12 @@ $('select[multiple]').multiselect( 'loadOptions', [{
         custom2: 'value2'
     }
 }]);
+Options with html code
+    <select>
+      <option>{#a href="yandex.ru"#}Yandex{#/a#}</option>
+      <option>{#a href="rambler.ru"#}Rambler{#/a#}</option>
+    </select>
+
 ```
 
 
@@ -92,7 +98,7 @@ Update options of select list. Default state will replace existing list with thi
 
 *This will NOT modify the original select list element.*
 ```
-$('select[multiple]').multiselect( 'loadOptions', [{
+$('select[multiple]').richselect( 'loadOptions', [{
     name   : 'Option Name 1',
     value  : 'option-value-1',
     checked: false
@@ -110,7 +116,7 @@ Update Multiselect list settings after it has been rendered.  It accepts the sam
 
 *This will reload the plugin for the select list it references*
 
-`$('select[multiple]').multiselect( 'settings', {
+`$('select[multiple]').richselect( 'settings', {
     columns: 2
 });`
 
@@ -120,30 +126,30 @@ Disable the jquery multiselect list and show the native select list.
 
 *This is distructive. You will have to reinitialize with all options to enable the plugin for the list.*
 
-`$('select[multiple]').multiselect( 'unload' );`
+`$('select[multiple]').richselect( 'unload' );`
 
 
 **reload**
 
 This is a quick unload/load while maintaining options during plugin initialization.
 
-`$('select[multiple]').multiselect( 'reload' );`
+`$('select[multiple]').richselect( 'reload' );`
 
 
 **reset**
 
 Reset the element back to its default selected values.
 
-`$('select[multiple]').multiselect( 'reset' );`
+`$('select[multiple]').richselect( 'reset' );`
 
 
 **disable**
 
 Disable or enable the select list. If no second parameter is passed then true is assumed.
 
-`$('select[multiple]').multiselect( 'disable', true );`
-`$('select[multiple]').multiselect( 'disable', false );`
-
+`$('select[multiple]').richselect( 'disable', true );`
+`$('select[multiple]').richselect( 'disable', false );`
+`$('select').richselect( 'disable', false );`
 
 ### Callbacks
 **onLoad**
