@@ -65,10 +65,12 @@
         <option>{#a href="user.php?id=1"#}Admin{#/a#}</option>
         <option>{#a href="user.php?id=2"#}Olya{#/a#}</option>
         <option>{#a href="user.php?id=3"#}Vasya{#/a#}</option>
+        <option>{#a href="user.php?id=4"#}Masha{#/a#}</option>
     </select>
 
     <script>
-    $(function () {
+    $( document ).ready(function() 
+    {
         $('select[multiple].active.3col').richselect({
             columns: 3,
             placeholder: 'Select States',
