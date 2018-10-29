@@ -60,6 +60,12 @@
         <option value="WI">Wisconsin</option>
         <option value="WY">Wyoming</option>
     </select>
+    
+    <select name="user" >
+        <option>{#a href="user.php?id=1"#}Admin{#/a#}</option>
+        <option>{#a href="user.php?id=2"#}Olya{#/a#}</option>
+        <option>{#a href="user.php?id=3"#}Vasya{#/a#}</option>
+    </select>
 
     <script>
     $(function () {
@@ -72,7 +78,7 @@
             },
             selectAll: true
         });
-
+         $('select[name=user]').richselect();
     });
 </script>
 </body>
