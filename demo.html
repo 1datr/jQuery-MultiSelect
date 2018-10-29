@@ -2,12 +2,28 @@
 <html>
 <head>
     <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
-    <link href="./jquery.multiselect.css" rel="stylesheet" />
+    <link href="./jquery.richselect.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+   
     <script src="./jquery.richselect.js"></script>
+	<script>
+    $( document ).ready(function() 
+    {
+        $('select[multiple].active.3col').richselect({
+            columns: 3,
+            placeholder: 'Select States',
+            search: true,
+            searchOptions: {
+                'default': 'Search States'
+            },
+           
+        });
+         $('select[name=user]').richselect();
+    });
+	</script>
 </head>
 <body>
+<div style="margin : 20px 30px 20px 130px;">
     <select name="basic[]" multiple="multiple" class="3col active">
         <option value="AL">Alabama</option>
         <option value="AK">Alaska</option>
@@ -68,20 +84,7 @@
         <option>{#a href="user.php?id=4"#}Masha{#/a#}</option>
     </select>
 
-    <script>
-    $( document ).ready(function() 
-    {
-        $('select[multiple].active.3col').richselect({
-            columns: 3,
-            placeholder: 'Select States',
-            search: true,
-            searchOptions: {
-                'default': 'Search States'
-            },
-            selectAll: true
-        });
-         $('select[name=user]').richselect();
-    });
-</script>
+    
+</div>
 </body>
 </html>
