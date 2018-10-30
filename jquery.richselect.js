@@ -81,8 +81,8 @@
         onSelectAll   : function( element, selected ){}, // fires when (un)select all is clicked
     };
 
-    var msCounter    = 1; // counter for each select list
-    var msOptCounter = 1; // counter for each option on page   
+    var rsCounter    = 1; // counter for each select list
+    var rsOptCounter = 1; // counter for each option on page   
 
     // FOR LEGACY BROWSERS (talking to you IE8)
     if( typeof Array.prototype.map !== 'function' ) {
@@ -106,16 +106,24 @@
         this.options           = $.extend( true, {}, defaults, options );
         this.updateSelectAll   = true;
         this.updatePlaceholder = true;
-        this.listNumber        = msCounter;
+        this.listNumber        = rsCounter;
     
-        this.msMode		 	   = 'radio';
+        this.rsMode		 	   = 'radio';
         if (typeof $(this.element).attr('multiple') !== "undefined") 
         {
-        	this.msMode		   = 'checkbox';
+        	this.rsMode		   = 'checkbox';
         }
         
+		var _src=$(this.element).attr('src');
+        if(_src!==undefined)
+        	this.options.src = _src;
+		
+		var _values=$(this.element).attr('values');
+        if(_values!==undefined)
+        	this.options.values = _values;
+    
 
-        msCounter = msCounter + 1; // increment counter
+        rsCounter = rsCounter + 1; // increment counter
 
         /* Make sure its a richselect list */
         /*
@@ -165,18 +173,23 @@
             /*
             <p style="text-overflow:ellipsis;overflow:hidden;margin-bottom:0px;">ОТДЕЛ ПРОДАЖ (общий), ОТДЕЛ ПРОДАЖ (Испания), ЭКСПО (Логистика)</p> 
              * */
-            $(instance.element).after('<div id="rs-list-'+ instance.listNumber +'" class="rs-options-wrap"><button type="button"  class="'+str_classes+'"><p style="text-overflow:ellipsis;overflow:hidden;margin-bottom:0px;">None Selected</p></button><div class="rs-options"><ul></ul></div></div>');
+            $(instance.element).after('<div id="rs-list-'+ instance.listNumber +'" class="rs-options-wrap"><button type="button"  class="'+str_classes+'"><p style="text-overflow:ellipsis;overflow:hidden;margin-bottom:0px;">None Selected</p></button>'+
+            		'<div class="rs-options"><div class="rs-ul"><ul></ul></div></div></div>');
 
             var placeholder = $(instance.element).siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> button:first-child');
             var optionsWrap = $(instance.element).siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options');
-            var optionsList = optionsWrap.find('> ul');
+            var o_l_width = $(instance.element).attr('olwidth');
+            if(o_l_width!==undefined)
+            	$(optionsWrap).css('width',o_l_width);
+            
+            var optionsList = optionsWrap.find('.rs-ul > ul');
 
             // don't show checkbox (add class for css to hide checkboxes)
             if( !instance.options.showCheckbox ) {
-                optionsWrap.addClass('hide-'+instance.msMode+'');
+                optionsWrap.addClass('hide-'+instance.rsMode+'');
             }
             else if( instance.options.checkboxAutoFit ) {
-                optionsWrap.addClass(''+instance.msMode+'-autofit');
+                optionsWrap.addClass(''+instance.rsMode+'-autofit');
             }
 
             // check if list is disabled
@@ -201,7 +214,7 @@
             // maxHeight cannot be less than options.minHeight
             maxHeight = maxHeight < instance.options.minHeight ? instance.options.minHeight : maxHeight;
 
-            optionsWrap.css({
+            optionsWrap.find('.rs-ul').css({
                 maxWidth : instance.options.maxWidth,
                 minHeight: instance.options.minHeight,
                 maxHeight: maxHeight,
@@ -283,7 +296,7 @@
 
                 // recalculate height
                 if( optionsWrap.closest('.rs-options-wrap').hasClass('rs-active') ) {
-                    optionsWrap.css( 'maxHeight', '' );
+                    optionsWrap.find('.rs-ul').css( 'maxHeight', '' );
 
                     // override with user defined maxHeight
                     if( instance.options.maxHeight ) {
@@ -298,7 +311,7 @@
                         // maxHeight cannot be less than options.minHeight
                         maxHeight = maxHeight < instance.options.minHeight ? instance.options.minHeight : maxHeight;
 
-                        optionsWrap.css( 'maxHeight', maxHeight );
+                        optionsWrap.find('.rs-ul').css( 'maxHeight', maxHeight );
                     }
                 }
                 else if( typeof instance.options.onControlClose == 'function' ) {
@@ -314,8 +327,9 @@
 
             // add search box
             if( instance.options.search ) {
-                optionsList.before('<div class="rs-search"><input type="text" value="" placeholder="'+ instance.options.texts.search +'" /></div>');
-
+                //optionsList.before('<div class="rs-search"><input type="text" value="" placeholder="'+ instance.options.texts.search +'" /></div>');
+            	optionsWrap.prepend($('<div class="rs-search"><input type="text" value="" placeholder="'+ instance.options.texts.search +'" /></div>'));	
+                
                 var search = optionsWrap.find('.rs-search input');
                 search.on('keyup', function(){
                     // ignore keystrokes that don't make a difference
@@ -384,12 +398,12 @@
                     if( optionsList.find('li:not(.optgroup, .selected, .rs-hidden)').length ) {
                         // get unselected vals, mark as selected, return val list
                         optionsList.find('li:not(.optgroup, .selected, .rs-hidden)').addClass('selected');
-                        optionsList.find('li.selected input[type="'+instance.msMode+'"]:not(:disabled)').prop( 'checked', true );
+                        optionsList.find('li.selected input[type="'+instance.rsMode+'"]:not(:disabled)').prop( 'checked', true );
                     }
                     // deselect everything
                     else {
                         optionsList.find('li:not(.optgroup, .rs-hidden).selected').removeClass('selected');
-                        optionsList.find('li:not(.optgroup, .rs-hidden, .selected) input[type="'+instance.msMode+'"]:not(:disabled)').prop( 'checked', false );
+                        optionsList.find('li:not(.optgroup, .rs-hidden, .selected) input[type="'+instance.rsMode+'"]:not(:disabled)').prop( 'checked', false );
                     }
                 }
                 else if( $(this).closest('li').hasClass('optgroup') ) {
@@ -398,17 +412,17 @@
                     // check if any selected if so then select them
                     if( optgroup.find('li:not(.selected, .rs-hidden)').length ) {
                         optgroup.find('li:not(.selected, .rs-hidden)').addClass('selected');
-                        optgroup.find('li.selected input[type="'+instance.msMode+'"]:not(:disabled)').prop( 'checked', true );
+                        optgroup.find('li.selected input[type="'+instance.rsMode+'"]:not(:disabled)').prop( 'checked', true );
                     }
                     // deselect everything
                     else {
                         optgroup.find('li:not(.rs-hidden).selected').removeClass('selected');
-                        optgroup.find('li:not(.rs-hidden, .selected) input[type="'+instance.msMode+'"]:not(:disabled)').prop( 'checked', false );
+                        optgroup.find('li:not(.rs-hidden, .selected) input[type="'+instance.rsMode+'"]:not(:disabled)').prop( 'checked', false );
                     }
                 }
 
                 var vals = [];
-                optionsList.find('li.selected input[type="'+instance.msMode+'"]').each(function(){
+                optionsList.find('li.selected input[type="'+instance.rsMode+'"]').each(function(){
                     vals.push( $(this).val() );
                 });
                 select.val( vals ).trigger('change');
@@ -508,18 +522,17 @@
             instance.loadOptions( options, true, false );
 
             // BIND SELECT ACTION
-            optionsWrap.on( 'click', 'input[type="'+instance.msMode+'"]', function(){
+            optionsWrap.on( 'click', 'input[type="'+instance.rsMode+'"]', function(){
                 $(this).closest( 'li' ).toggleClass( 'selected' );
 
                 var select = optionsWrap.parent().siblings('.rs-list-'+ instance.listNumber +'.jqmsLoaded');
 
-                if(instance.msMode=='radio')
-                {
-                	var the_val = $(this).val();
-                	the_val = the_val.replace(/"/g, '\\"').replace(/\[/g, '\\["').replace(/\[/g, '\\]'); 
-                	//'input:radio[value!="'+the_val+'"]:checked'		
-                	$(this).closest('ul').find('input:radio[value!="'+the_val+'"]').prop('checked', false).closest('li').removeClass('selected');
+                if(instance.rsMode=='radio')
+                {	
+                	$(this).closest('ul').find('input:radio:not(:checked)').removeClass('selected');
+                	$(this).closest('ul').find('input:radio:checked').addClass('selected');                	
                 }
+
                 
                 // toggle clicked option
                 select.find('option[value="'+ $(this).val() +'"]').prop(
@@ -536,9 +549,9 @@
             });
 
             // BIND FOCUS EVENT
-            optionsWrap.on('focusin', 'input[type="'+instance.msMode+'"]', function(){
+            optionsWrap.on('focusin', 'input[type="'+instance.rsMode+'"]', function(){
                 $(this).closest('label').addClass('focused');
-            }).on('focusout', 'input[type="'+instance.msMode+'"]', function(){
+            }).on('focusout', 'input[type="'+instance.rsMode+'"]', function(){
                 $(this).closest('label').removeClass('focused');
             });
 
@@ -582,7 +595,7 @@
 
             var instance    = this;
             var select      = $(instance.element);
-            var optionsList = select.siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options > ul');
+            var optionsList = select.siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options > .rs-ul > ul');
             var optionsWrap = select.siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options');
 
             if( overwrite ) {
@@ -718,8 +731,8 @@
             optionsList.append( containers );
 
             // pad out label for room for the checkbox
-            if( instance.options.checkboxAutoFit && instance.options.showCheckbox && !optionsWrap.hasClass('hide-'+instance.msMode+'') ) {
-                var chkbx = optionsList.find('.rs-reflow:eq(0) input[type="'+instance.msMode+'"]');
+            if( instance.options.checkboxAutoFit && instance.options.showCheckbox && !optionsWrap.hasClass('hide-'+instance.rsMode+'') ) {
+                var chkbx = optionsList.find('.rs-reflow:eq(0) input[type="'+instance.rsMode+'"]');
                 if( chkbx.length ) {
                     var checkboxWidth = chkbx.outerWidth();
                         checkboxWidth = checkboxWidth ? checkboxWidth : 15;
@@ -895,7 +908,7 @@
             // get selected options
             var selOpts = [];
             
-            if(instance.msMode=='radio')
+            if(instance.rsMode=='radio')
             {
             	selOpts.push(
 	                    $.trim( select.find('option[value="'+ selectVals +'"]').text() )
@@ -934,7 +947,7 @@
             if( !selOpts.length ) {
                 placeholderTxt.text( instance.options.texts.placeholder );
             }
-            else if(instance.msMode=='radio')
+            else if(instance.rsMode=='radio')
             {
             	if(selOpts.length>0)
             		{
@@ -951,24 +964,36 @@
                 placeholderTxt.text( selectVals.length + instance.options.texts.selectedOptions );
             }
         },
-        /*
-        <p style="text-overflow:ellipsis;overflow:hidden;margin-bottom:0px;">ОТДЕЛ ПРОДАЖ (общий), ОТДЕЛ ПРОДАЖ (Испания), ЭКСПО (Логистика)</p> 
-         * */
+        
         // Add option to the custom dom list
         _addOption: function( container, option ) {
             var instance = this;
-            var thisOption = $('<label/>', {
-                for : 'rs-opt-'+ msOptCounter,
+            
+            var thisOption = $('<div/>', {
+                for : 'rs-opt-'+ rsOptCounter,
                // text: option.name
-                html : option.html,
-            });
-
+               // html : '<div class="rs-item-html" for="rs-opt-'+ rsOptCounter+'">'+option.html+'</div>',
+            }).append($('<div class="rs-item-html" for="rs-opt-'+ rsOptCounter+'">'+option.html+'</div>'));
+            
+            var html_block = $(thisOption).find('.rs-item-html');
+            
+            
+            thisOption.addClass('rs-item');
+            
             var thisCheckbox = $('<input>', {
-                type : ''+instance.msMode+'',
+                type : ''+instance.rsMode+'',
                 title: option.name,
-                id   : 'rs-opt-'+ msOptCounter,
-                value: option.value
+                id   : 'rs-opt-'+ rsOptCounter,
+                value: option.value,                
             });
+            
+            $(thisCheckbox).addClass('selcontrol');
+            
+            if(instance.rsMode=='radio')
+            {
+            	thisCheckbox.attr('name',"rs-list-items"+instance.listNumber);
+            }
+            
 
             // add user defined attributes
             if( option.hasOwnProperty('attributes') && Object.keys( option.attributes ).length ) {
@@ -981,6 +1006,27 @@
             }
 
             thisOption.prepend( thisCheckbox );
+            
+            var a_obj=this;
+            thisOption.on('click',function(e){
+            	if($(e.target).is('input[type='+a_obj.rsMode+'].selcontrol'))
+            		return;
+            	$(this).closest('li').find('input[type=checkbox]').trigger('click');
+            	
+            	$(this).closest('li').find('input[type=radio]').prop("checked",true);
+            	$(this).closest('li').find('input[type=radio]').trigger('change');
+            	$(this).closest('li').find('input[type=radio]').trigger('click'); //click();
+            	
+            });
+            
+            $(html_block).find('*').click(function(e) {
+                e.stopPropagation();
+           });
+            /*
+            $(thisOption).find('input[type=radio]').click(function(e) {
+                e.stopPropagation();
+                $(this).closest('.rs-options').trigger('click'); 
+           });*/
           /*  if(option.addition_html!==undefined)
             {
             	thisOption.append( $('<a>'+option.addition_html+'</a>') );
@@ -996,7 +1042,7 @@
 
             container.attr( 'data-search-term', $.trim( searchTerm ) ).prepend( thisOption );
 
-            msOptCounter = msOptCounter + 1;
+            rsOptCounter = rsOptCounter + 1;
         },
 
         // check ie version
@@ -1044,61 +1090,6 @@
         
     };
     
-    $(document).on("modal_load",'[role=dialog]',function(e){
-    	//$('select[multiple]')
-    //	var selects = $('select[multiple]');
-    	var selects = $('select:not(.classic)');
-    	var attrlist = {'placeholder':'string','columns':'number',
-    	                'search':'boolean','src':'string','values':'string',
-    	                'placeholder_search':'struct',
-    			//'selectGroup',
-    	                //'selectAll',
-    	                'minHeight':'number','maxWidth':'number','minSelect':'number','maxSelect':'number','maxHeight':'string',
-    	                //'showCheckbox'
-    	}; 
-    	for(var i=0;i<selects.length;i++)
-    	{
-    		var opts = {
-    				searchOptions : {
-    		            'default'    : 'Search',             // search input placeholder text
-    		            showOptGroups: false,                // show option group titles if no options remaining
-    		            onSearch     : function( element ){
-    		            	//alert($(element).val());
-    		            } // fires on keyup before search on options happens
-    		        },
-    				
-    		};
-    		//jQuery.each(attrlist, function() 
-    		for(_attr in attrlist) {
-    			var attr_val = $(selects[i]).attr(_attr);  
-    			if(attr_val !== undefined)
-    			{
-    				if(attrlist[_attr]=='number')
-    					opts[_attr]=Number(attr_val);
-    				else
-    				{
-    					if(attrlist[_attr]=='boolean')
-    						opts[_attr]=new Boolean(attr_val);
-    					else
-    					{
-    						if(attrlist[_attr]=='string')
-    						{
-    							opts[_attr]=attr_val;
-    						}
-    						else
-    						{
-    							if(_attr=='placeholder_search')
-    							{
-    								opts.searchOptions.default=attr_val;
-    							}
-    						}
-    					}
-    				}
-    			}
-    		}
-    		$(selects[i]).richselect(opts);
-    		
-        };    	
-	});
+    
     
 }(jQuery));
