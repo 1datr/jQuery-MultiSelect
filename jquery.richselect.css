@@ -45,10 +45,12 @@
     color: #333;
 }
 
-.rs-options-wrap .rs-ul {
-	overflow: auto;
+.rs-options-wrap .rs-ul-before > .rs-ul {
+/*	overflow: auto;    */
 	min-height: 100%; 
 	max-height:100%;
+	margin: 0px;
+	padding: 0px;
 }
 
 .rs-options-wrap > .rs-options {
@@ -65,7 +67,19 @@
 }
 
 .rs-options-wrap.rs-active > .rs-options {
-    visibility: visible
+    visibility: visible;
+    background-color: #fff;
+}
+
+.rs-ul-before {
+	margin:0px;
+	padding:0px;
+	
+	display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
 .rs-options-wrap > .rs-options > .rs-search input {
@@ -86,35 +100,35 @@
     text-decoration: underline;
 }
 
-.rs-options-wrap > .rs-options > .rs-ul > .rs-selectall.global {
+.rs-options-wrap > .rs-options >  .rs-ul-before > .rs-ul > .rs-selectall.global {
     margin: 4px 5px;
 }
 
-.rs-options-wrap > .rs-options > .rs-ul > ul,
-.rs-options-wrap > .rs-options > .rs-ul > ul > li.optgroup ul {
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul,
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul > li.optgroup ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-.rs-options-wrap > .rs-options > .rs-ul >  ul li.rs-hidden {
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul >  ul li.rs-hidden {
     display: none;
 }
 
-.rs-options-wrap > .rs-options > .rs-ul > ul > li.optgroup {
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul > li.optgroup {
     padding: 5px;
 }
-.rs-options-wrap > .rs-options > .rs-ul > ul > li.optgroup + li.optgroup {
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul > li.optgroup + li.optgroup {
     border-top: 1px solid #aaa;
 }
 
-.rs-options-wrap > .rs-options > .rs-ul > ul > li.optgroup .label {
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul > li.optgroup .label {
     display: block;
     padding: 5px 0 0 0;
     font-weight: bold;
 }
 
-.rs-options-wrap > .rs-options > .rs-ul > ul label {
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul label {
     position: relative;
     display: inline-block;
     width: 100%;
@@ -127,36 +141,36 @@
     padding: 4px;
 }
 
-.rs-options-wrap > .rs-options > .rs-ul > ul label.focused,
-.rs-options-wrap > .rs-options > .rs-ul > ul label:hover {
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul label.focused,
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul label:hover {
     background-color: #efefef;
     border-color: #999;
 }
 
-.rs-options-wrap > .rs-options > .rs-ul > ul li.focused,
-.rs-options-wrap > .rs-options > .rs-ul > ul li:hover {
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul li.focused,
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul li:hover {
     background-color: #efefef;
     border-color: #999;
 }
 
-.rs-options-wrap > .rs-options > .rs-ul > ul li {
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul li {
 	padding: 0px;
 }
 /*
-.rs-options-wrap > .rs-options > .rs-ul > ul li.selected label {
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul li.selected label {
     background-color: #efefef;
     border-color: transparent;
 }*/
 
-.rs-options-wrap > .rs-options > .rs-ul > ul input[type="checkbox"],
-.rs-options-wrap > .rs-options > .rs-ul > ul input[type="radio"] {
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul input[type="checkbox"],
+.rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul input[type="radio"] {
     margin: 0 5px 0 0;
     position: absolute;
     left: 4px;
-    top: 6px;
+    top: 10px;
 }
 
-.rs-options-wrap > .rs-options.hide-checkbox > .rs-ul > ul input[type="checkbox"] {
+.rs-options-wrap > .rs-options.hide-checkbox > .rs-ul-before > .rs-ul > ul input[type="checkbox"] {
     position: absolute !important;
     height: 1px;
     width: 1px;
@@ -165,7 +179,7 @@
     clip: rect(1px, 1px, 1px, 1px);
 }
 
-.rs-options-wrap > .rs-options.hide-radio > .rs-ul > ul input[type="radio"] {
+.rs-options-wrap > .rs-options.hide-radio > .rs-ul-before > .rs-ul > ul input[type="radio"] {
     position: absolute !important;
     height: 1px;
     width: 1px;
@@ -175,14 +189,13 @@
 }
 
 
-.rs-options-wrap .rs-ul > ul > li .rs-item {
+.rs-options-wrap .rs-ul-before > .rs-ul > ul > li .rs-item {
 	margin: 0px;
 	padding: 0px;
 }
 
-.rs-options-wrap .rs-ul > ul > li .rs-item .rs-item-html {
+.rs-options-wrap .rs-ul-before > .rs-ul > ul > li .rs-item .rs-item-html {
 	margin-left: 20px;
 	padding: 3px 3px 3px 3px;
 	cursor: default;
 }
- 
