@@ -181,8 +181,13 @@
             var placeholder = $(instance.element).siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> button:first-child');
             var optionsWrap = $(instance.element).siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options');
             var o_l_width = $(instance.element).attr('olwidth');
+            var o_l_height = $(instance.element).attr('olheight');
             if(o_l_width!==undefined)
             	$(optionsWrap).find('.rs-ul').css('width',o_l_width);
+            
+            if(o_l_height===undefined)
+            	o_l_height = '350px';
+            $(optionsWrap).find('.rs-ul').css('height',o_l_height);
             
             var optionsList = optionsWrap.find('.rs-ul > ul');
 
@@ -218,8 +223,8 @@
 
             optionsWrap.find('.rs-ul').css({
                 maxWidth : instance.options.maxWidth,
-                minHeight: instance.options.minHeight,
-                maxHeight: maxHeight,
+             //   minHeight: instance.options.minHeight,
+             //   maxHeight: maxHeight,
             });
 
             // isolate options scroll
@@ -298,7 +303,7 @@
 
                 // recalculate height
                 if( optionsWrap.closest('.rs-options-wrap').hasClass('rs-active') ) {
-                    optionsWrap.find('.rs-ul').css( 'maxHeight', '' );
+                //    optionsWrap.find('.rs-ul').css( 'maxHeight', '' );
 
                     // override with user defined maxHeight
                     if( instance.options.maxHeight ) {
@@ -313,7 +318,7 @@
                         // maxHeight cannot be less than options.minHeight
                         maxHeight = maxHeight < instance.options.minHeight ? instance.options.minHeight : maxHeight;
 
-                        optionsWrap.find('.rs-ul').css( 'maxHeight', maxHeight );
+                     //   optionsWrap.find('.rs-ul').css( 'maxHeight', maxHeight );
                     }
                 }
                 else if( typeof instance.options.onControlClose == 'function' ) {
@@ -1150,4 +1155,3 @@
 	});
     
 }(jQuery));
- 
