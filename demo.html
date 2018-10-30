@@ -4,7 +4,7 @@
     <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
     <link href="./jquery.richselect.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-   
+	   
     <script src="./jquery.richselect.js"></script>
 	<script>
     $( document ).ready(function() 
@@ -23,8 +23,8 @@
 	</script>
 </head>
 <body>
-<div style="margin : 20px 30px 20px 130px;">
-    <select name="basic[]" multiple="multiple" class="3col active">
+<div style="margin : 20px 880px 20px 830px;">
+    <select name="basic[]" multiple="multiple" olwidth="650px" class="3col active">
         <option value="AL">Alabama</option>
         <option value="AK">Alaska</option>
         <option value="AZ">Arizona</option>
@@ -76,15 +76,22 @@
         <option value="WI">Wisconsin</option>
         <option value="WY">Wyoming</option>
     </select>
-    
-    <select name="user" >
-        <option>{#a href="user.php?id=1"#}Admin{#/a#}</option>
-        <option>{#a href="user.php?id=2"#}Olya{#/a#}</option>
-        <option>{#a href="user.php?id=3"#}Vasya{#/a#}</option>
-        <option>{#a href="user.php?id=4"#}Masha{#/a#}</option>
-    </select>
-
-    
 </div>
+
+<div style="margin : 20px 30px 20px 130px;">    
+    <select name="user" style="width:100px;" >
+        <option>{#a href="yandex.ru"#}Yandex.ru{#/a#}</option>
+        <option>{#a href="google.com"#}Google{#/a#}</option>
+        <option>{#a href="rambler.ru"#}Rambler{#/a#}</option>
+        <option>{#a href="mail.ru"#}Mail.RU{#/a#}</option>
+    </select>    
+</div>
+
+<div style="margin : 20px 30px 20px 130px;">    
+    <select name="user" style="width:100px;" multiple="multiple" src="./users.json" values="19,22,26,30" >
+        
+    </select>    
+</div>
+
 </body>
 </html>
