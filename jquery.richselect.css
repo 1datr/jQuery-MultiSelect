@@ -1,6 +1,7 @@
 .rs-options-wrap,
 .rs-options-wrap * {
     box-sizing: border-box;
+    position: relative;
 }
 
 .rs-options-wrap > button:focus,
@@ -44,16 +45,22 @@
     color: #333;
 }
 
+.rs-options-wrap .rs-ul {
+	overflow: auto;
+	min-height: 100%; 
+	max-height:100%;
+}
+
 .rs-options-wrap > .rs-options {
     position: absolute;
-    left: -15;
+    right: 0px;
     width: 100%;
     margin-top: 1px;
     margin-bottom: 20px;
     background: white;
     z-index: 2000;
     border: 1px solid #aaa;
-    overflow: auto;
+    /*overflow: auto;*/
     visibility: hidden;
 }
 
@@ -79,35 +86,35 @@
     text-decoration: underline;
 }
 
-.rs-options-wrap > .rs-options > .rs-selectall.global {
+.rs-options-wrap > .rs-options > .rs-ul > .rs-selectall.global {
     margin: 4px 5px;
 }
 
-.rs-options-wrap > .rs-options > ul,
-.rs-options-wrap > .rs-options > ul > li.optgroup ul {
+.rs-options-wrap > .rs-options > .rs-ul > ul,
+.rs-options-wrap > .rs-options > .rs-ul > ul > li.optgroup ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-.rs-options-wrap > .rs-options > ul li.rs-hidden {
+.rs-options-wrap > .rs-options > .rs-ul >  ul li.rs-hidden {
     display: none;
 }
 
-.rs-options-wrap > .rs-options > ul > li.optgroup {
+.rs-options-wrap > .rs-options > .rs-ul > ul > li.optgroup {
     padding: 5px;
 }
-.rs-options-wrap > .rs-options > ul > li.optgroup + li.optgroup {
+.rs-options-wrap > .rs-options > .rs-ul > ul > li.optgroup + li.optgroup {
     border-top: 1px solid #aaa;
 }
 
-.rs-options-wrap > .rs-options > ul > li.optgroup .label {
+.rs-options-wrap > .rs-options > .rs-ul > ul > li.optgroup .label {
     display: block;
     padding: 5px 0 0 0;
     font-weight: bold;
 }
 
-.rs-options-wrap > .rs-options > ul label {
+.rs-options-wrap > .rs-options > .rs-ul > ul label {
     position: relative;
     display: inline-block;
     width: 100%;
@@ -120,32 +127,36 @@
     padding: 4px;
 }
 
-.rs-options-wrap > .rs-options > ul label.focused,
-.rs-options-wrap > .rs-options > ul label:hover {
+.rs-options-wrap > .rs-options > .rs-ul > ul label.focused,
+.rs-options-wrap > .rs-options > .rs-ul > ul label:hover {
     background-color: #efefef;
     border-color: #999;
 }
 
-.rs-options-wrap > .rs-options > ul li.selected label {
+.rs-options-wrap > .rs-options > .rs-ul > ul li.focused,
+.rs-options-wrap > .rs-options > .rs-ul > ul li:hover {
+    background-color: #efefef;
+    border-color: #999;
+}
+
+.rs-options-wrap > .rs-options > .rs-ul > ul li {
+	padding: 0px;
+}
+/*
+.rs-options-wrap > .rs-options > .rs-ul > ul li.selected label {
     background-color: #efefef;
     border-color: transparent;
-}
+}*/
 
-.rs-options-wrap > .rs-options > ul input[type="checkbox"] {
+.rs-options-wrap > .rs-options > .rs-ul > ul input[type="checkbox"],
+.rs-options-wrap > .rs-options > .rs-ul > ul input[type="radio"] {
     margin: 0 5px 0 0;
     position: absolute;
     left: 4px;
-    top: 7px;
+    top: 6px;
 }
 
-.rs-options-wrap > .rs-options > ul input[type="radio"] {
-    margin: 0 5px 0 0;
-    position: absolute;
-    left: 4px;
-    top: 7px;
-}
-
-.rs-options-wrap > .rs-options.hide-checkbox > ul input[type="checkbox"] {
+.rs-options-wrap > .rs-options.hide-checkbox > .rs-ul > ul input[type="checkbox"] {
     position: absolute !important;
     height: 1px;
     width: 1px;
@@ -154,11 +165,23 @@
     clip: rect(1px, 1px, 1px, 1px);
 }
 
-.rs-options-wrap > .rs-options.hide-radio > ul input[type="radio"] {
+.rs-options-wrap > .rs-options.hide-radio > .rs-ul > ul input[type="radio"] {
     position: absolute !important;
     height: 1px;
     width: 1px;
     overflow: hidden;
     clip: rect(1px 1px 1px 1px);
     clip: rect(1px, 1px, 1px, 1px);
+}
+
+
+.rs-options-wrap .rs-ul > ul > li .rs-item {
+	margin: 0px;
+	padding: 0px;
+}
+
+.rs-options-wrap .rs-ul > ul > li .rs-item .rs-item-html {
+	margin-left: 20px;
+	padding: 3px 3px 3px 3px;
+	cursor: default;
 }
