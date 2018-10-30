@@ -99,7 +99,7 @@
             return this.replace(/^\s+|\s+$/g, '');
         };
     }
-
+        
     function MultiSelect( element, options )
     {
         this.element           = element;
@@ -107,6 +107,16 @@
         this.updateSelectAll   = true;
         this.updatePlaceholder = true;
         this.listNumber        = rsCounter;
+        
+        // from attributes
+        var _src=$(this.element).attr('src');
+        if(_src!==undefined)
+        	this.options.src = _src;
+        
+        var _values=$(this.element).attr('values');
+        if(_values!==undefined)
+        	this.options.values = _values;
+        
     
         this.rsMode		 	   = 'radio';
         if (typeof $(this.element).attr('multiple') !== "undefined") 
@@ -114,14 +124,6 @@
         	this.rsMode		   = 'checkbox';
         }
         
-		var _src=$(this.element).attr('src');
-        if(_src!==undefined)
-        	this.options.src = _src;
-		
-		var _values=$(this.element).attr('values');
-        if(_values!==undefined)
-        	this.options.values = _values;
-    
 
         rsCounter = rsCounter + 1; // increment counter
 
@@ -174,13 +176,13 @@
             <p style="text-overflow:ellipsis;overflow:hidden;margin-bottom:0px;">ОТДЕЛ ПРОДАЖ (общий), ОТДЕЛ ПРОДАЖ (Испания), ЭКСПО (Логистика)</p> 
              * */
             $(instance.element).after('<div id="rs-list-'+ instance.listNumber +'" class="rs-options-wrap"><button type="button"  class="'+str_classes+'"><p style="text-overflow:ellipsis;overflow:hidden;margin-bottom:0px;">None Selected</p></button>'+
-            		'<div class="rs-options"><div class="rs-ul"><ul></ul></div></div></div>');
+            		'<div class="rs-options"><div class="rs-ul-before"><div class="rs-ul"><ul></ul></div></div></div></div>');
 
             var placeholder = $(instance.element).siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> button:first-child');
             var optionsWrap = $(instance.element).siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options');
             var o_l_width = $(instance.element).attr('olwidth');
             if(o_l_width!==undefined)
-            	$(optionsWrap).css('width',o_l_width);
+            	$(optionsWrap).find('.rs-ul').css('width',o_l_width);
             
             var optionsList = optionsWrap.find('.rs-ul > ul');
 
@@ -595,7 +597,7 @@
 
             var instance    = this;
             var select      = $(instance.element);
-            var optionsList = select.siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options > .rs-ul > ul');
+            var optionsList = select.siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options > .rs-ul-before  > .rs-ul > ul');
             var optionsWrap = select.siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options');
 
             if( overwrite ) {
@@ -1090,6 +1092,61 @@
         
     };
     
-    
+    $(document).on("modal_load",'[role=dialog]',function(e){
+    	//$('select[multiple]')
+    //	var selects = $('select[multiple]');
+    	var selects = $('select:not(.classic)');
+    	var attrlist = {'placeholder':'string','columns':'number',
+    	                'search':'boolean','src':'string','values':'string',
+    	                'placeholder_search':'struct',
+    			//'selectGroup',
+    	                //'selectAll',
+    	                'minHeight':'number','maxWidth':'number','minSelect':'number','maxSelect':'number','maxHeight':'string',
+    	                //'showCheckbox'
+    	}; 
+    	for(var i=0;i<selects.length;i++)
+    	{
+    		var opts = {
+    				searchOptions : {
+    		            'default'    : 'Search',             // search input placeholder text
+    		            showOptGroups: false,                // show option group titles if no options remaining
+    		            onSearch     : function( element ){
+    		            	//alert($(element).val());
+    		            } // fires on keyup before search on options happens
+    		        },
+    				
+    		};
+    		//jQuery.each(attrlist, function() 
+    		for(_attr in attrlist) {
+    			var attr_val = $(selects[i]).attr(_attr);  
+    			if(attr_val !== undefined)
+    			{
+    				if(attrlist[_attr]=='number')
+    					opts[_attr]=Number(attr_val);
+    				else
+    				{
+    					if(attrlist[_attr]=='boolean')
+    						opts[_attr]=new Boolean(attr_val);
+    					else
+    					{
+    						if(attrlist[_attr]=='string')
+    						{
+    							opts[_attr]=attr_val;
+    						}
+    						else
+    						{
+    							if(_attr=='placeholder_search')
+    							{
+    								opts.searchOptions.default=attr_val;
+    							}
+    						}
+    					}
+    				}
+    			}
+    		}
+    		$(selects[i]).richselect(opts);
+    		
+        };    	
+	});
     
 }(jQuery));
