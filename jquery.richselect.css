@@ -155,6 +155,7 @@
 
 .rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul li {
 	padding: 0px;
+	display: block;
 }
 /*
 .rs-options-wrap > .rs-options > .rs-ul-before > .rs-ul > ul li.selected label {
