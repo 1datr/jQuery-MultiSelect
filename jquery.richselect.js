@@ -575,11 +575,17 @@
                  			
                  			for(j=0;j<data.length;j++)
                  			{
+                 				var filtered = data.filter(function (e) {
+                 			         return (data[j].value==e);
+                 			    });
+                 				
+                 				data[j]['checked'] = (filtered.length>0);
+                 				/*
                  				data[j]['checked'] = sel_vals.find( function(e)
                  					{
                  						return (data[j].value==e);
                  					}
-                 				);
+                 				);*/
                  			}
                  			
                  		}
@@ -976,7 +982,7 @@
         _addOption: function( container, option ) {
             var instance = this;
             
-            var thisOption = $('<div/>', {
+            var thisOption = $('<label/>', {
                 for : 'rs-opt-'+ rsOptCounter,
                // text: option.name
                // html : '<div class="rs-item-html" for="rs-opt-'+ rsOptCounter+'">'+option.html+'</div>',
@@ -1015,6 +1021,7 @@
             thisOption.prepend( thisCheckbox );
             
             var a_obj=this;
+            /*
             thisOption.on('click',function(e){
             	if($(e.target).is('input[type='+a_obj.rsMode+'].selcontrol'))
             		return;
@@ -1025,20 +1032,12 @@
             	$(this).closest('li').find('input[type=radio]').trigger('click'); //click();
             	
             });
+            */
             
             $(html_block).find('*').click(function(e) {
                 e.stopPropagation();
            });
-            /*
-            $(thisOption).find('input[type=radio]').click(function(e) {
-                e.stopPropagation();
-                $(this).closest('.rs-options').trigger('click'); 
-           });*/
-          /*  if(option.addition_html!==undefined)
-            {
-            	thisOption.append( $('<a>'+option.addition_html+'</a>') );
-            }*/
-            
+                       
             var searchTerm = '';
             if( instance.options.searchOptions.searchText ) {
                 searchTerm += ' ' + option.name.toLowerCase();
