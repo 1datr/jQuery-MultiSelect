@@ -189,6 +189,9 @@
     clip: rect(1px, 1px, 1px, 1px);
 }
 
+.rs-options-wrap .rs-ul-before > .rs-ul > ul {
+	display: block;
+}
 
 .rs-options-wrap .rs-ul-before > .rs-ul > ul > li .rs-item {
 	margin: 0px;
@@ -199,4 +202,5 @@
 	margin-left: 20px;
 	padding: 3px 3px 3px 3px;
 	cursor: default;
+	/*background-color: #fff;*/
 }
