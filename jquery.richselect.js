@@ -33,7 +33,18 @@
  *     </select>
  *
  **/
+
+
 (function($){
+	Array.prototype.in_array = function(p_val) {
+		for(var i = 0, l = this.length; i < l; i++)	{
+			if(this[i] == p_val) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
     var defaults = {
         columns: 1,     // how many columns should be use to show options
         search : false, // include option search box
@@ -128,11 +139,6 @@
         rsCounter = rsCounter + 1; // increment counter
 
         /* Make sure its a richselect list */
-        /*
-        if( !$(this.element).attr('multiple') ) {
-            throw new Error( '[jQuery-MultiSelect] Select list must be a richselect list in order to use this plugin' );
-        }
-*/
         /* Options validation checks */
         if( this.options.search ){
             if( !this.options.searchOptions.searchText && !this.options.searchOptions.searchValue ){
@@ -172,9 +178,7 @@
 
             var str_classes=$(instance.element).attr('class');
             // add option container
-            /*
-            <p style="text-overflow:ellipsis;overflow:hidden;margin-bottom:0px;">ОТДЕЛ ПРОДАЖ (общий), ОТДЕЛ ПРОДАЖ (Испания), ЭКСПО (Логистика)</p> 
-             * */
+           
             $(instance.element).after('<div id="rs-list-'+ instance.listNumber +'" class="rs-options-wrap"><button type="button"  class="'+str_classes+'"><p style="text-overflow:ellipsis;overflow:hidden;margin-bottom:0px;">None Selected</p></button>'+
             		'<div class="rs-options"><div class="rs-ul-before"><div class="rs-ul"><ul></ul></div></div></div></div>');
 
@@ -575,17 +579,9 @@
                  			
                  			for(j=0;j<data.length;j++)
                  			{
-                 				var filtered = data.filter(function (e) {
-                 			         return (data[j].value==e);
-                 			    });
                  				
-                 				data[j]['checked'] = (filtered.length>0);
-                 				/*
-                 				data[j]['checked'] = sel_vals.find( function(e)
-                 					{
-                 						return (data[j].value==e);
-                 					}
-                 				);*/
+                 				data[j]['checked'] = sel_vals.in_array(data[j].value);
+                 				
                  			}
                  			
                  		}
