@@ -978,6 +978,8 @@
         _addOption: function( container, option ) {
             var instance = this;
             
+            if(option.html==null) option.html=option.name;
+            
             var thisOption = $('<label/>', {
                 for : 'rs-opt-'+ rsOptCounter,
                // text: option.name
@@ -1090,6 +1092,6 @@
 	        }
 	        	       
         
-    };   
-       
+    };    
+    
 }(jQuery));
