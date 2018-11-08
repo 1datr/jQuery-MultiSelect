@@ -3,7 +3,7 @@
  * @Version: 1.0.0
  * @Author: 1datr
  * @Contact: the1datr@ya.ru
- * @Source: https://github.com/nobleclem/jQuery-MultiSelect
+ * @Source: https://github.com/nobleclem/jQuery-RichSelect
  *
  * Usage:
  *     $('select[multiple]').richselect();
@@ -111,7 +111,7 @@
         };
     }
         
-    function MultiSelect( element, options )
+    function RichSelect( element, options )
     {
         this.element           = element;
         this.options           = $.extend( true, {}, defaults, options );
@@ -142,7 +142,7 @@
         /* Options validation checks */
         if( this.options.search ){
             if( !this.options.searchOptions.searchText && !this.options.searchOptions.searchValue ){
-                throw new Error( '[jQuery-MultiSelect] Either searchText or searchValue should be true.' );
+                throw new Error( '[jQuery-RichSelect] Either searchText or searchValue should be true.' );
             }
         }
 
@@ -163,7 +163,7 @@
        
     }
 
-    MultiSelect.prototype = {
+    RichSelect.prototype = {
         /* LOAD CUSTOM MULTISELECT DOM/ACTIONS */
         load: function() {
             var instance = this;
@@ -179,18 +179,21 @@
             var str_classes=$(instance.element).attr('class');
             // add option container
            
-            $(instance.element).after('<div id="rs-list-'+ instance.listNumber +'" class="rs-options-wrap"><button type="button"  class="'+str_classes+'"><p style="text-overflow:ellipsis;overflow:hidden;margin-bottom:0px;">None Selected</p></button>'+
+            $(instance.element).after('<div id="rs-list-'+ instance.listNumber +'" class="rs-options-wrap">'+
+            		'<div type="button"  class="'+str_classes+'"><div class="placeholder-div" style="text-overflow:ellipsis;overflow:hidden;margin-bottom:0px;">None Selected</div></div>'+
+            		//'<button type="button"  class="'+str_classes+'"><div class="placeholder-div" style="text-overflow:ellipsis;overflow:hidden;margin-bottom:0px;">None Selected</div></button>'+
             		'<div class="rs-options"><div class="rs-ul-before"><div class="rs-ul"><ul></ul></div></div></div></div>');
 
             this.select_style = $(instance.element).attr('style');                      
             
-            var placeholder = $(instance.element).siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> button:first-child');
+            var placeholder = $(instance.element).siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> [type=button]:first-child');
             var optionsWrap = $(instance.element).siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options');
+            this.Wrap = optionsWrap;
             
             if(this.select_style!=null)
             {
-            	$(instance.element).siblings('.rs-options-wrap').find('button').attr('style',this.select_style);
-    
+            	//$(instance.element).siblings('.rs-options-wrap').find('button').attr('style',this.select_style);
+            	$(instance.element).siblings('.rs-options-wrap').find('div[type=button]').attr('style',this.select_style);	
             }
             
             var o_l_width = $(instance.element).attr('olwidth');
@@ -253,6 +256,15 @@
                     }
                 }
             });
+            
+            var a = this;
+            $(document).on('mousedown','a.deleter',function(e) { 
+            	e.stopPropagation();             	 
+            });
+            $(document).on('click','a.deleter',function(e) { 
+            	e.stopPropagation(); 
+            	a.OnDeleter(e); 
+            });
 
             // hide options menus if click happens off of the list placeholder button
             $(document).off('click.rs-hideopts').on('click.rs-hideopts', function( event ){
@@ -292,6 +304,10 @@
 
             // disable button action
             placeholder.on( 'mousedown', function( event ){
+            	
+            	if($(event.target).is('.deleter'))
+            		return true;
+            	
                 // ignore if its not a left click
                 if( event.which && (event.which != 1) ) {
                     return true;
@@ -915,6 +931,26 @@
             });
         },
 
+        labelHover: function(e)
+        {
+        	$(e.target).addClass('active');
+        },
+        labelOut: function(e)
+        {
+        	$(e.target).removeClass('active');
+        },
+        OnDeleter: function(e)
+        {
+        	
+        	$(e.target).removeClass('active');        	
+        	var sel_value = $(e.target).closest('.selects-element').attr('value');
+        	var cb = $(this.Wrap).find('.rs-item').find('input[type=checkbox][value='+sel_value+']');
+        	
+      //	нажимем на чекбокс - унчекаем чекбокс
+        	$(cb).trigger('click');
+        	
+        	//	this.optionsWrap.find('.rs-item').find('[value='+sel_value+']');
+        },
         // update selected placeholder text
         _updatePlaceholderText: function(){
             if( !this.updatePlaceholder ) {
@@ -924,9 +960,9 @@
             var instance       = this;
             var select         = $(instance.element);
             var selectVals     = select.val() ? select.val() : [];
-            var placeholder    = select.siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> button:first-child');
+            var placeholder    = select.siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> [type=button]:first-child');
             //var placeholderTxt = placeholder.find('span');
-            var placeholderTxt = placeholder.find('p');
+            var placeholderTxt = placeholder.find('div.placeholder-div');// p
             var optionsWrap    = select.siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options');
 
             // if there are disabled options get those values as well
@@ -948,6 +984,10 @@
             }
             else
             {
+            	if(selectVals.length>0)
+            	{
+            		placeholderTxt.html('');
+            	}
 	            for( var key in selectVals ) 
 	            {
 	                // Prevent prototype methods injected into options from being iterated over.
@@ -955,17 +995,34 @@
 	                    continue;
 	                }
 	
-	                selOpts.push(
-	                    $.trim( select.find('option[value="'+ selectVals[ key ] +'"]').text() )
-	                );
+	                //selOpts.push(
+	                    //$.trim( select.find('option[value="'+ selectVals[ key ] +'"]').text() )
+	                var item_text = select.find('option[value="'+ selectVals[ key ] +'"]').text();
+	                var a = this;
+	                var selects_item = $('<div />').addClass('selects-element').text(item_text).append(
+	                		$('<a class="deleter">x</a>')
+	                	).attr('value',selectVals[ key ]);
+	                	
+
+	                placeholderTxt.append(selects_item);
+	                var a=this;
+	                $(document).on('mouseover','.selects-element',function(e){ 
+	                	e.stopPropagation(); 
+	                	a.labelHover(e); 
+	                	});
+	                $(document).on('mouseout','.selects-element',function(e) { 
+	                	e.stopPropagation(); 
+	                	a.labelOut(e); 
+	                	});
+	                
+	                //);
+	                selOpts.push(item_text);
 	
 	                if( selOpts.length >= instance.options.maxPlaceholderOpts ) {
 	                    break;
 	                }
 	            }
 	
-	            // UPDATE PLACEHOLDER TEXT WITH OPTIONS SELECTED
-	            placeholderTxt.text( selOpts.join( ', ' ) );
             }
             
             if( selOpts.length ) {
@@ -1042,19 +1099,7 @@
             thisOption.prepend( thisCheckbox );
             
             var a_obj=this;
-            /*
-            thisOption.on('click',function(e){
-            	if($(e.target).is('input[type='+a_obj.rsMode+'].selcontrol'))
-            		return;
-            	$(this).closest('li').find('input[type=checkbox]').trigger('click');
-            	
-            	$(this).closest('li').find('input[type=radio]').prop("checked",true);
-            	$(this).closest('li').find('input[type=radio]').trigger('change');
-            	$(this).closest('li').find('input[type=radio]').trigger('click'); //click();
-            	
-            });
-            */
-            
+                      
             $(html_block).find('*').click(function(e) {
                 e.stopPropagation();
            });
@@ -1094,14 +1139,14 @@
 	        if( (options === undefined) || (typeof options === 'object') ) {
 	            return this.each(function(){
 	                if( !$.data( this, 'plugin_richselect' ) ) {
-	                    $.data( this, 'plugin_richselect', new MultiSelect( this, options ) );
+	                    $.data( this, 'plugin_richselect', new RichSelect( this, options ) );
 	                }
 	            });
 	        } else if( (typeof options === 'string') && (options[0] !== '_') && (options !== 'init') ) {
 	            this.each(function(){
 	                var instance = $.data( this, 'plugin_richselect' );
 	
-	                if( instance instanceof MultiSelect && typeof instance[ options ] === 'function' ) {
+	                if( instance instanceof RichSelect && typeof instance[ options ] === 'function' ) {
 	                    ret = instance[ options ].apply( instance, Array.prototype.slice.call( args, 1 ) );
 	                }
 	
@@ -1116,5 +1161,6 @@
 	        	       
         
     };
-        
+      
+    
 }(jQuery));
