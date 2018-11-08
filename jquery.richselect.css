@@ -4,8 +4,8 @@
     position: relative;
 }
 
-.rs-options-wrap > button:focus,
-.rs-options-wrap > button {
+.rs-options-wrap > [type=button]:focus,
+.rs-options-wrap > [type=button] {
     position: relative;
     width: 100%;
     text-align: left;
@@ -19,17 +19,17 @@
     white-space: nowrap;
 }
 
-.rs-options-wrap > button > span {
+.rs-options-wrap > [type=button] > span {
     display: inline-block;
 }
 
-.rs-options-wrap > button[disabled] {
+.rs-options-wrap > [type=button][disabled] {
     background-color: #e5e9ed;
     color: #808080;
     opacity: 0.6;
 }
 
-.rs-options-wrap > button:after {
+.rs-options-wrap > [type=button]:after {
     content: ' ';
     height: 0;
     position: absolute;
@@ -41,8 +41,44 @@
     margin-top: -3px;
 }
 
-.rs-options-wrap.rs-has-selections > button {
+.rs-options-wrap.rs-has-selections > [type=button] {
     color: #333;
+    
+}
+
+div.placeholder-div {
+	font-size: 17px;
+}
+
+.rs-options-wrap .selects-element {
+	background-color: #e5e9ed;
+	display: inline;
+    margin-right: 5px;
+    
+     -moz-border-radius: 3px; /* закругление для старых Mozilla Firefox */
+ 	-webkit-border-radius: 3px; /* закругление для старых Chrome и Safari */
+ 	-khtml-border-radius:3px; /* закругл. для браузера Konquerer системы Linux */
+ 	border-radius: 3px; /* закругление углов для всех, кто понимает */
+    
+    border: 1px solid transparent;
+    cursor: pointer;
+    
+}
+
+.rs-options-wrap .selects-element.active{
+	background-color: #555555;
+	color: #ddd;
+}
+
+.rs-options-wrap .selects-element .deleter{
+	color:red;
+	margin: 5px 5px 5px 5px;
+	font-weight:normal;
+}
+
+.rs-options-wrap .selects-element .deleter:hover {
+	font-weight:bold;
+	color:red;
 }
 
 .rs-options-wrap .rs-ul-before > .rs-ul {
