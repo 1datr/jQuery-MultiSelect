@@ -182,8 +182,17 @@
             $(instance.element).after('<div id="rs-list-'+ instance.listNumber +'" class="rs-options-wrap"><button type="button"  class="'+str_classes+'"><p style="text-overflow:ellipsis;overflow:hidden;margin-bottom:0px;">None Selected</p></button>'+
             		'<div class="rs-options"><div class="rs-ul-before"><div class="rs-ul"><ul></ul></div></div></div></div>');
 
+            this.select_style = $(instance.element).attr('style');                      
+            
             var placeholder = $(instance.element).siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> button:first-child');
             var optionsWrap = $(instance.element).siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options');
+            
+            if(this.select_style!=null)
+            {
+            	$(instance.element).siblings('.rs-options-wrap').find('button').attr('style',this.select_style);
+    
+            }
+            
             var o_l_width = $(instance.element).attr('olwidth');
             var o_l_height = $(instance.element).attr('olheight');
             if(o_l_width!==undefined)
@@ -516,6 +525,12 @@
                     	the_text=the_html;
                     }
                     
+                    var to_show = $(this).attr('toshow');
+                    if(to_show===undefined)
+                    {
+                    	to_show=the_text;
+                    }
+                    
                     $(this).text(the_text);
                     options.push({
                         name      : the_text,                        
@@ -523,6 +538,7 @@
                         checked   : $(this).prop( 'selected' ),
                         attributes: thisOptionAtts,
                         html	  : the_html,
+                        to_show   : to_show,
                     });
                 }
                 else {
@@ -530,7 +546,8 @@
                     return true;
                 }
             });
-            instance.loadOptions( options, true, false );
+            //instance.loadOptions( options, true, false );
+            instance.loadOptions( options, true, true );
 
             // BIND SELECT ACTION
             optionsWrap.on( 'click', 'input[type="'+instance.rsMode+'"]', function(){
@@ -607,6 +624,8 @@
             var optionsList = select.siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options > .rs-ul-before  > .rs-ul > ul');
             var optionsWrap = select.siblings('#rs-list-'+ instance.listNumber +'.rs-options-wrap').find('> .rs-options');
 
+           
+            
             if( overwrite ) {
                 optionsList.find('> li').remove();
 
@@ -623,6 +642,10 @@
                 }
 
                 var thisOption      = options[ key ];
+                
+                if(thisOption.to_show===undefined)
+                	thisOption['to_show']=thisOption['name'];
+                
                 var container       = $('<li/>');
                 var appendContainer = true;
 
@@ -632,11 +655,11 @@
                         container.addClass('rs-reflow');
                     }
 
-                    // add option to ms dropdown
+                    // add option to rs dropdown
                     instance._addOption( container, thisOption );
 
                     if( updateSelect ) {
-                        var selOption = $('<option value="'+ thisOption.value +'">'+ thisOption.name +'</option>');
+                        var selOption = $('<option value="'+ thisOption.value +'">'+ thisOption.to_show +'</option>');
 
                         // add custom user attributes
                         if( thisOption.hasOwnProperty('attributes') && Object.keys( thisOption.attributes ).length ) {
@@ -712,7 +735,7 @@
 
                         // add option to optgroup in select element
                         if( updateSelect ) {
-                            var selOption = $('<option value="'+ thisGOption.value +'">'+ thisGOption.name +'</option>');
+                            var selOption = $('<option value="'+ thisGOption.value +'">'+ thisGOption.to_show +'</option>');
 
                             // add custom user attributes
                             if( thisGOption.hasOwnProperty('attributes') && Object.keys( thisGOption.attributes ).length ) {
@@ -1092,6 +1115,6 @@
 	        }
 	        	       
         
-    };    
-    
+    };
+        
 }(jQuery));
