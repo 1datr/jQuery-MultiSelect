@@ -1,3 +1,8 @@
+.rs-options-wrap
+{
+	
+}
+
 .rs-options-wrap,
 .rs-options-wrap * {
     box-sizing: border-box;
@@ -17,6 +22,14 @@
     color: #aaa;
     outline-offset: -2px;
     white-space: nowrap;
+    border: 1px solid #ced4da;
+       
+    -moz-border-radius: 0.25rem; /* закругление для старых Mozilla Firefox */
+ 	-webkit-border-radius: 0.25rem; /* закругление для старых Chrome и Safari */
+ 	-khtml-border-radius:0.25rem; /* закругл. для браузера Konquerer системы Linux */
+ 	border-radius: 0.25rem; /* закругление углов для всех, кто понимает */
+ 	
+ 	-webkit-appearance: none;
 }
 
 .rs-options-wrap > [type=button] > span {
@@ -48,6 +61,7 @@
 
 div.placeholder-div {
 	font-size: 17px;
+	
 }
 
 .rs-options-wrap .selects-element {
