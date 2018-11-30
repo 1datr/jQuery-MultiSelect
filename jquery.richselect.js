@@ -33,17 +33,18 @@
  *     </select>
  *
  **/
-
-
-(function($){
-	Array.prototype.in_array = function(p_val) {
-		for(var i = 0, l = this.length; i < l; i++)	{
+function in_array(the_array,p_val) 
+	{
+		for(var i = 0, l = the_array.length; i < l; i++)	{
 			if(this[i] == p_val) {
 				return true;
 			}
 		}
 		return false;
 	}
+
+(function($){
+	
 	
     var defaults = {
         columns: 1,     // how many columns should be use to show options
@@ -613,7 +614,7 @@
                  			for(j=0;j<data.length;j++)
                  			{
                  				
-                 				data[j]['checked'] = sel_vals.in_array(data[j].value);
+                 				data[j]['checked'] = in_array(sel_vals,data[j].value);
                  				
                  			}
                  			
