@@ -166,7 +166,8 @@ function in_array(the_array,p_val)
 
     RichSelect.prototype = {
         /* LOAD CUSTOM MULTISELECT DOM/ACTIONS */
-        load: function() {
+        load: function() 
+        {
             var instance = this;
 
             // make sure this is a select list and not loaded
@@ -877,11 +878,13 @@ function in_array(the_array,p_val)
         /* RELOAD JQ MULTISELECT LIST */
         reload: function() {
             // remove existing options
-            $(this.element).siblings('#rs-list-'+ this.listNumber +'.rs-options-wrap').remove();
+            //$(this.element).siblings('#rs-list-'+ this.listNumber +'.rs-options-wrap').remove();
+            $(this.element).siblings('.rs-options-wrap').remove();
             $(this.element).removeClass('jqmsLoaded');
 
             // load element
             this.load();
+            $(this.element).siblings('.rs-options-wrap').find('[type=button]').css('display','');
         },
 
         // RESET BACK TO DEFAULT VALUES & RELOAD
@@ -1163,61 +1166,5 @@ function in_array(the_array,p_val)
         
     };
     
-    $(document).on("modal_load",'[role=dialog]',function(e){
-    	//$('select[multiple]')
-    //	var selects = $('select[multiple]');
-    	var selects = $('select:not(.classic)');
-    	var attrlist = {'placeholder':'string','columns':'number',
-    	                'search':'boolean','src':'string','values':'string',
-    	                'placeholder_search':'struct',
-    			//'selectGroup',
-    	                //'selectAll',
-    	                'minHeight':'number','maxWidth':'number','minSelect':'number','maxSelect':'number','maxHeight':'string',
-    	                //'showCheckbox'
-    	}; 
-    	for(var i=0;i<selects.length;i++)
-    	{
-    		var opts = {
-    				searchOptions : {
-    		            'default'    : 'Search',             // search input placeholder text
-    		            showOptGroups: false,                // show option group titles if no options remaining
-    		            onSearch     : function( element ){
-    		            	//alert($(element).val());
-    		            } // fires on keyup before search on options happens
-    		        },
-    				
-    		};
-    		//jQuery.each(attrlist, function() 
-    		for(_attr in attrlist) {
-    			var attr_val = $(selects[i]).attr(_attr);  
-    			if(attr_val !== undefined)
-    			{
-    				if(attrlist[_attr]=='number')
-    					opts[_attr]=Number(attr_val);
-    				else
-    				{
-    					if(attrlist[_attr]=='boolean')
-    						opts[_attr]=new Boolean(attr_val);
-    					else
-    					{
-    						if(attrlist[_attr]=='string')
-    						{
-    							opts[_attr]=attr_val;
-    						}
-    						else
-    						{
-    							if(_attr=='placeholder_search')
-    							{
-    								opts.searchOptions.default=attr_val;
-    							}
-    						}
-    					}
-    				}
-    			}
-    		}
-    		$(selects[i]).richselect(opts);
-    		
-        };    	
-	});
-    
+      
 }(jQuery));
